@@ -121,7 +121,7 @@ function getplan(event) {
     //preventing default
     event.preventDefault();
     //getting keys from server side
-    fetch('http://localhost:8080/get_infomation')
+    fetch('http://localhost:8081/get_infomation')
         .then((res) => res.json())
         .then((keys) => {
             const GEONAMES = keys.GEONAMES;
@@ -425,7 +425,7 @@ function minmaxdate() {
 //it will update the ui with the saved trip info
 getserverdata();
 async function getserverdata() {
-    const response = await fetch('/return');
+    const response = await fetch('http://localhost:8081/return');
     const newentry = await response.json();
     // checking if there is a icon attribute
     if (newentry && newentry.icon) {
