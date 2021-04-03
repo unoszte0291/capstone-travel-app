@@ -94,6 +94,7 @@ The weather data only had 1 object in the array, the geoname api outputs multipl
     ・What Parameters will you want to set to pull in images?<br>
     ・How will you submit your data from the location field to a Pixabay URL parameter without having spaces in the url?<br>
 <br>
+
 ## Creating layouts and page design<br>
 I made a webpage which is displayed the evaluatting result of a URL.<br>
 It is designed with SCSS language.<br>
