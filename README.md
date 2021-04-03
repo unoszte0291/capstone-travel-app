@@ -99,9 +99,10 @@ I made a webpage which is displayed the evaluatting result of a URL.<br>
 It is designed with SCSS language.<br>
 
 https://sass-lang.com/documentation<br>
-https://developer.mozilla.org/en-US/docs/Learn/CSS<br>
+https://developer.mozilla.org/en-US/docs/Learn/CSS <br>
 <br>
 ## Service workers<br>
+
 ```
 Three steps:
 1. In webpack.prod.js config file,
