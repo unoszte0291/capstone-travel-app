@@ -7,103 +7,40 @@
   <title>Travel Planner</title>
   <!-- Load Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Fira+Sans:900|Merriweather&display=swap" rel="stylesheet">  
+  <!-- <link rel="stylesheet" href="../styles/styles.css"> -->
 </head>
-<body>
-  <!-- HTML Follows BEM naming conventions 
-  IDs are only used for sections to connect menu achors to sections -->
-  <header class="page__header main__hero">
-    <div class="wrapper site-header__wrapper">
-      <div class="site-header__middle">
-      <nav id= nav class="navbar__menu">
-        <!-- Navigation starts as empty UL that will be populated with JS -->
-      </nav>
-    </div>
-  </div>
-  </header>
+ <body>
   <main>
-    <h1>Travel Planner</h1>
-    <div id = "app">
-      <div class ="holder headline">
+      <div id = "app">
+          <div class ="holder headline">Trip Planner <br>
+            <span id=sub>Look up the weather information before planning your trip within two weeks.</span>
+            <br>
+            <p><input type="text" id="travel_place" placeholder="input a country name here"></p> 
+            <p><input type="date" id="travel_date"></p> 
+          <p><button id="submit" type="submit">Search</button></p>
+            <form onsubmit="Client.getplan(event)">
+              <img id="picture" src="../src/client/media/transport.png" alt="Travel place will be here"/>
+               <h3>Your travel is in <em id="noinput">No input</em></h3>
+                            <img id="weather" src="../src/client/media/unknown.png" alt=""/>
+                            <div id="temperature">Temperature : ?°C</div>
+                            <div id="wind">Wind Speed :  m/s</div>
+                            <div id="explanation">No explanation</div>
+                <p><button id="saveplan" type="submit">Save The Trip</button></p>
+            </form>
+          </div>  
       </div>
-      <div id="country_loading"></div>
-            <div id="countload"><div id="loading"></div></div>
-      <form onsubmit="Client.getplan(event)">
-        <p class ="inline-block">
-          <input type="text" id="travel_place" placeholder="input a country name here">
-        </p>
-        <p class ="inline-block">
-          <input type="date" id="travel_date">
-        </p>
-      </form>
-    <br>
-    <br>
-    <br>
-    <div class="button">
-      <button id="submit" type="submit" onclick="Client.getplan(event)">
-       Search
-       </button>
-    </div> 
-    </div>
-    <div id="picture">
-        <article>
-            <h2 id="nowhere_titile">No travel country</h2>
-            <h3>Your travel is in <em id="noinput">No input</em></h3>
-            <img src="./src/client/media/unknown.png" alt="" id="weather">
-            <div id="country_date">
-                <h3 id="temperature">?°C</h3>
-                <h3 id="explanation">No explanation</h3>
-            </div>
-        </article>
-        <br>
-        <br>
-        <div id="saveplan">Save The plan</div>
-    </div>
-    <br>
-    <section data-nav="Section 1" class="your-active-class">
-      <div id="section1" class="landing__container sa sa--up">
-        <h2>Section 1</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti. Aenean aliquam elementum mi, ac euismod augue. Donec eget lacinia ex. Phasellus imperdiet porta orci eget mollis. Sed convallis sollicitudin mauris ac tincidunt. Donec bibendum, nulla eget bibendum consectetur, sem nisi aliquam leo, ut pulvinar quam nunc eu augue. Pellentesque maximus imperdiet elit a pharetra. Duis lectus mi, aliquam in mi quis, aliquam porttitor lacus. Morbi a tincidunt felis. Sed leo nunc, pharetra et elementum non, faucibus vitae elit. Integer nec libero venenatis libero ultricies molestie semper in tellus. Sed congue et odio sed euismod.</p>
-
-        <p>Aliquam a convallis justo. Vivamus venenatis, erat eget pulvinar gravida, ipsum lacus aliquet velit, vel luctus diam ipsum a diam. Cras eu tincidunt arcu, vitae rhoncus purus. Vestibulum fermentum consectetur porttitor. Suspendisse imperdiet porttitor tortor, eget elementum tortor mollis non.</p>
-      </div>
-    </section>
-    <section  data-nav="Section 2">
-      <div id="section2" class="landing__container sa sa--up">
-        <h2>Section 2</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti. Aenean aliquam elementum mi, ac euismod augue. Donec eget lacinia ex. Phasellus imperdiet porta orci eget mollis. Sed convallis sollicitudin mauris ac tincidunt. Donec bibendum, nulla eget bibendum consectetur, sem nisi aliquam leo, ut pulvinar quam nunc eu augue. Pellentesque maximus imperdiet elit a pharetra. Duis lectus mi, aliquam in mi quis, aliquam porttitor lacus. Morbi a tincidunt felis. Sed leo nunc, pharetra et elementum non, faucibus vitae elit. Integer nec libero venenatis libero ultricies molestie semper in tellus. Sed congue et odio sed euismod.</p>
-
-        <p>Aliquam a convallis justo. Vivamus venenatis, erat eget pulvinar gravida, ipsum lacus aliquet velit, vel luctus diam ipsum a diam. Cras eu tincidunt arcu, vitae rhoncus purus. Vestibulum fermentum consectetur porttitor. Suspendisse imperdiet porttitor tortor, eget elementum tortor mollis non.</p>
-      </div>
-    </section>
-    <section data-nav="Section 3">
-      <div id="section3" class="landing__container sa sa--up">
-        <h2>Section 3</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti. Aenean aliquam elementum mi, ac euismod augue. Donec eget lacinia ex. Phasellus imperdiet porta orci eget mollis. Sed convallis sollicitudin mauris ac tincidunt. Donec bibendum, nulla eget bibendum consectetur, sem nisi aliquam leo, ut pulvinar quam nunc eu augue. Pellentesque maximus imperdiet elit a pharetra. Duis lectus mi, aliquam in mi quis, aliquam porttitor lacus. Morbi a tincidunt felis. Sed leo nunc, pharetra et elementum non, faucibus vitae elit. Integer nec libero venenatis libero ultricies molestie semper in tellus. Sed congue et odio sed euismod.</p>
-
-        <p>Aliquam a convallis justo. Vivamus venenatis, erat eget pulvinar gravida, ipsum lacus aliquet velit, vel luctus diam ipsum a diam. Cras eu tincidunt arcu, vitae rhoncus purus. Vestibulum fermentum consectetur porttitor. Suspendisse imperdiet porttitor tortor, eget elementum tortor mollis non.</p>
-      </div>
-    </section>
-    <section data-nav="Section 4">
-      <div id="section4" class="landing__container sa sa--up">
-        <h2>Section 4</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti. Aenean aliquam elementum mi, ac euismod augue. Donec eget lacinia ex. Phasellus imperdiet porta orci eget mollis. Sed convallis sollicitudin mauris ac tincidunt. Donec bibendum, nulla eget bibendum consectetur, sem nisi aliquam leo, ut pulvinar quam nunc eu augue. Pellentesque maximus imperdiet elit a pharetra. Duis lectus mi, aliquam in mi quis, aliquam porttitor lacus. Morbi a tincidunt felis. Sed leo nunc, pharetra et elementum non, faucibus vitae elit. Integer nec libero venenatis libero ultricies molestie semper in tellus. Sed congue et odio sed euismod.</p>
-
-        <p>Aliquam a convallis justo. Vivamus venenatis, erat eget pulvinar gravida, ipsum lacus aliquet velit, vel luctus diam ipsum a diam. Cras eu tincidunt arcu, vitae rhoncus purus. Vestibulum fermentum consectetur porttitor. Suspendisse imperdiet porttitor tortor, eget elementum tortor mollis non.</p>
-      </div>
-    </section>
-  </main>
- 
-  <footer class="page__footer">
+</main>
+<footer class="page__footer">
     <p>&copy Udacity</p>
-  </footer>
-  <script>
-    // Check that service workers are supported
-    if ('serviceWorker' in navigator) {
-        // Use the window load event to keep the page load performant
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/service-worker.js');
-        });
-    }
-  </script>
+</footer>
+<script>
+  // Check that service workers are supported
+  if ('serviceWorker' in navigator) {
+      // Use the window load event to keep the page load performant
+      window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js');
+      });
+  };
+</script>
 </body>
 </html>

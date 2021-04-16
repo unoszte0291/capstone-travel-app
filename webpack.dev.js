@@ -25,6 +25,14 @@ module.exports = {
                 test: /\.scss$/,
                 use: ['style-loader', 'css-loader', 'sass-loader']
             },
+            {
+                test: /([a-z][0-9]{2}[a-z])\.(svg)$/i,
+                use: [ {loader: "file-loader",
+                options: {
+                    name: '[name].[ext]', // remove [path]
+                    outputPath: 'assets/icons'},
+                }]
+            },
         ]
     },
     plugins: [
