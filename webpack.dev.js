@@ -6,49 +6,46 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
-    entry: './src/client/index.js',
-    mode: 'development',
-    devtool: 'source-map',
-    output: {
-        libraryTarget: 'var',
-        library: 'Client',
-    },
-    stats: 'verbose',
-    module: {
-        rules: [
-            {
-                test: '/\.js$/',
-                exclude: /node_modules/,
-                loader: 'babel-loader'
-            },
-            {
-                test: /\.scss$/,
-                use: ['style-loader', 'css-loader', 'sass-loader']
-            },
-            {
-                test: /([a-z][0-9]{2}[a-z])\.(svg)$/i,
-                use: [ {loader: "file-loader",
-                options: {
-                    name: '[name].[ext]', // remove [path]
-                    outputPath: 'assets/icons'},
-                }]
-            },
-        ]
-    },
-    plugins: [
-        new WorkboxPlugin.GenerateSW(),
-        new HtmlWebPackPlugin({
-            template: './src/client/views/index.html',
-            filename: './index.html',
-        }),
-        new CleanWebpackPlugin({
-            // Simulate the removal of files
-            dry: true,
-            // Write Logs to Console
-            verbose: true,
-            // Automatically remove all unused webpack assets on rebuild
-            cleanStaleWebpackAssets: true,
-            protectWebpackAssets: false,
-        }),
-    ],
-};
+            entry: './src/client/index.js',
+            mode: 'development',
+            devtool: 'source-map',
+            output: {
+                        libraryTarget: 'var',
+                        library: 'Client',
+                    },
+            stats: 'verbose',
+            module: {
+                    rules: [
+                            {
+                            test: '/\.js$/',
+                            exclude: /node_modules/,
+                            loader: 'babel-loader'
+                            },
+                            {
+                            test: /\.scss$/,
+                            use: ['style-loader', 'css-loader', 'sass-loader']
+                            },
+                            // added from Menter help https://knowledge.udacity.com/questions/537120
+                            {
+                            test: /\.(jpe?g|png|gif|svg)$/i,
+                            loader: "file-loader",
+                            options: {
+                            name: "[path][name].[ext]",
+                                },
+                            },
+                            ]
+                    },
+            plugins: [
+                        new WorkboxPlugin.GenerateSW(),
+                        new HtmlWebPackPlugin({
+                        template: './src/client/views/index.html',
+                        filename: './index.html',
+                        }),
+                        new CleanWebpackPlugin({
+                        dry: true,
+                        verbose: true,
+                        cleanStaleWebpackAssets: true,
+                        protectWebpackAssets: false,
+                        }),
+                    ],
+                };

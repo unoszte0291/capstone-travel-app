@@ -38,6 +38,13 @@ app.get('/', function (request, response) {
   response.sendFile('dist/index.html');
 });
 
+// GET route that returns the projectData object
+app.get('/all', sendData);
+
+function sendData (request, response) {
+  response.send(projectData);
+};
+
 // GET: test input data
 app.get('/test', function (request, response) {
   response.send(mockAPIResponse)

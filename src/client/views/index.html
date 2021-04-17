@@ -17,11 +17,11 @@
             <br>
             <p><input type="text" id="travel_place" placeholder="input a country name here"></p> 
             <p><input type="date" id="travel_date"></p> 
-          <p><button id="submit" type="submit">Search</button></p>
+          <p><button id="submit" type="submit" onclick="Client.getplan(event)">Search</button></p>
             <form onsubmit="Client.getplan(event)">
               <img id="picture" src="../src/client/media/transport.png" alt="Travel place will be here"/>
                <h3>Your travel is in <em id="noinput">No input</em></h3>
-                            <img id="weather" src="../src/client/media/unknown.png" alt=""/>
+                            <img id="weather" src="../src/client/media/unknown.png" alt="weather forcast will be here"/>
                             <div id="temperature">Temperature : ?°C</div>
                             <div id="wind">Wind Speed :  m/s</div>
                             <div id="explanation">No explanation</div>
