@@ -1,13 +1,15 @@
+export{getplan, updateUI}
 /* Global Variables */
 // getting each ids information on web page
 let moment = require('moment');
 const travel_date = document.getElementById('travel_date');
-const baseURL = 'http://localhost:8081/get_infomation';
 const weather_img = document.getElementById('weather');
 const weather_temp = document.getElementById('temperature');
 const weather_exp = document.getElementById('explanation');
 const photo = document.getElementById('picture');
 const noinput = document.getElementById('noinput');
+const baseURL = 'http://localhost:8081/get_infomation';
+   // test input data
 //---------------------------------------------------------------------------------------------//
 
 //---------------------------------------------------------------------------------------------//
@@ -29,160 +31,117 @@ function current(depdate) {
     let weather = moment(thirddate).diff(moment(firstdate), 'days');
         console.log(weather + ' days');
         return weather;
-}
+};
 //---------------------------------------------------------------------------------------------//
 //getting the travel plan
 function getplan(event) {
 //preventing default
 event.preventDefault();
-    // test input data
-    const place = document.getElementById('travel_place').value;
-    let date = document.getElementById('travel_date').value;
+const place = document.getElementById('travel_place').value;
+let date = document.getElementById('travel_date').value;
     //checking the form
     if (place === '' || date === '') {
         console.log('No place or No date');
         return 'empty';
-    };
+    }
     //fetching keys from server side
-    getKeysInfo(baseURL)
-    .then(function (keys) {
-        // getting each keys
-        const GEONAMES = keys.GEONAMES;
-        const PIXABAY_API_KEY = keys.PIXABAY_API_KEY;
-        const WEATHERBIT_API_KEY = keys.WEATHERBIT_API_KEY;
+    async function getKeysInfo(baseURL) {
+        try {
+          const response = await fetch(baseURL);
+          console.log(await response.json());
+        }
+        catch (err) {
+          console.log('fetch failed', err);
+        }
+
+        const GEONAMES = response.GEONAMES;
+        const PIXABAY_API_KEY = response .PIXABAY_API_KEY;
+        const WEATHERBIT_API_KEY = response .WEATHERBIT_API_KEY;
         // Weather info posted to the server
         console.log('--- Response ---')
         console.log(GEONAMES)
         console.log(PIXABAY_API_KEY)
         console.log(WEATHERBIT_API_KEY)
-        geonames(GEONAMES, PIXABAY_API_KEY,WEATHERBIT_API_KEY);
-        })
-        .catch(error => {
-            console.log('--- Error ---')
-            console.log('error')
-        });
-
+        geonames(GEONAMES, PIXABAY_API_KEY,WEATHERBIT_API_KEY)
+        getKeysInfo(baseURL);
+    };
     //fetching information from geonames api
-    geonames(GEONAMES, PIXABAY_API_KEY,WEATHERBIT_API_KEY)
-    .then(function (data) {
+    async function geonames(GEONAMES, PIXABAY_API_KEY,WEATHERBIT_API_KEY) {
+        try {
+            const geodata = await fetch(`http://api.geonames.org/searchJSON?q=${place}&maxRows=1&username=${GEONAMES}`);
+            console.log(await geodata.json());
+          }
+          catch (err) {
+            console.log('fetch failed', err);
+          }
+    
         // country information
-        const country = data.countryName;
-        const countryCode = data.countryCode;
-        const lat = data.lat;
-        const lng = data.lng;
+        const country = geodata.countryName;
+        const countryCode = geodata.countryCode;
+        const lat = geodata.lat;
+        const lng = geodata.lng;
         
         console.log('--- Response ---')
-        console.log(place);
-        console.log(date);
-        console.log(data);
         console.log(country, lat, lng);
     //calling the getphoto function
-        getphoto(country, countryCode, lat, lng, date, PIXABAY_API_KEY, WEATHERBIT_API_KEY);
-         })
+        getphoto(country, countryCode, lat, lng, date, PIXABAY_API_KEY, WEATHERBIT_API_KEY)
          .catch(error => {
             console.log('error');
-            });
-
+            })
+        };
 //----------------------------------------------------------------------------------------------//
 
 //getting photos from pixabay api
-    getphoto(country, countryCode, lat, lng, depdate, PIXABAY_API_KEY, WEATHERBIT_API_KEY)
-    .then(function (data) {
-        const image = data.hits[0].webformatURL;
+async function getphoto(country, countryCode, lat, lng, date, PIXABAY_API_KEY, WEATHERBIT_API_KEY) {
+    try {
+        const photodata = await fetch(`https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${country}&orientation=horizontal&category=travel&per_page=3`);
+        console.log(await photodata.json());
+      }
+      catch (err) {
+        console.log('fetch failed', err);
+      }
+    
+        const image = photodata.hits[0].webformatURL;
     //getting date count
         const weather= current(depdate);
         
         console.log('--- Response ---')        
-        console.log(data);
+        console.log(photodata);
         console.log(image);
         console.log('get weather forecast');
-        weatherforecast(lat, lng, country, countryCode, image, weather, WEATHERBIT_API_KEY);            
-    })
+        weatherforecast(lat, lng, country, countryCode, image, weather, WEATHERBIT_API_KEY)           
     .catch(error => {
         console.log('error');
-    })
+    });
+}
 //----------------------------------------------------------------------------------------------//
-
-    weatherforecast(lat, lng, country, countryCode, image, weather, WEATHERBIT_API_KEY)
-    .then(function (data) {
+async function weatherforecast(clat, lng, country, countryCode, image, weather, WEATHERBIT_API_KEY) {
+    try {
+        const weatherdata = await fetch(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lng}&key=${WEATHERBIT_API_KEY}`);
+        console.log(await weatherdata.json());
+      }
+      catch (err) {
+        console.log('fetch failed', err);
+      }
         //getting informnation
-             const city = data.city_name;
-             const temperature = data.data[weather].temp;
-             const icon = data.data[weather].weather.icon;
-             const explanation = data.data[weather].weather.description;
-             const windspeed = data.data[weather].wind_spd;
+             const city = weatherdata.city_name;
+             const temperature = weatherdata[weather].temp;
+             const icon = weatherdata[weather].weather.icon;
+             const explanation = weatherdata[weather].weather.description;
+             const windspeed = weatherdata[weather].wind_spd;
              const daytime = weather + ' days';
         
         console.log('--- Response ---') 
         console.log(daytime);
-        console.log(data);
+        console.log(weatherdata);
         console.log(city, temperature, icon, explanation, windspeed);
     //sending to the server update UI data 
-    updateUI(icon, explanation, temperature, city, country, countryCode, daytime, image, windspeed);
-    })
+    updateUI(icon, explanation, temperature, city, country, countryCode, daytime, image, windspeed)
     .catch(error => {
         console.log('error');
         });
-//-------------------------------------------------------------//
-
-//-------------------------------------------------------------//
-const getKeysInfo = async (baseURL) => {
-
-    const response = await fetch(baseURL)
-    try {
-        const keysData = await response.json();
-        console.log(keysData)
-        return keysData;
-    } 
-    catch(error) {
-        console.log("error", error);
     }
-  };
-//-------------------------------------------------------------//
-
-//-------------------------------------------------------------//
-const geonames = async (GEONAMES) => {
-
-    const response = await fetch(`http://api.geonames.org/searchJSON?q=${place}&maxRows=1&username=${GEONAMES}`)
-    try {
-        const geonamesData = await response.json();
-        console.log(geonamesData)
-        return geonamesData;
-    } 
-    catch(error) {
-        console.log("error", error);
-    }
-  };
-//-------------------------------------------------------------//
-
-//-------------------------------------------------------------//
-const getphoto = async (country, PIXABAY_API_KEY) => {
-
-    const response = await fetch(`https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${country}&orientation=horizontal&category=travel&per_page=3`)
-    try {
-        const photoData = await response.json();
-        console.log(photoData)
-        return photoData;
-    } 
-    catch(error) {
-        console.log("error", error);
-    }
-  };
-//-------------------------------------------------------------//
-
-//-------------------------------------------------------------//
-const weatherforecast = async (lat, lng, WEATHERBIT_API_KEY) => {
-
-    const response = await fetch(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lng}&key=${WEATHERBIT_API_KEY}`)
-    try {
-        const weatherData = await response.json();
-        console.log(weatherData)
-        return weatherData;
-    } 
-    catch(error) {
-        console.log("error", error);
-    }
-  };
+};
 //-------------------------------------------------------------//
 
 //updates the UI with information
@@ -193,7 +152,7 @@ function updateUI(icon, explanation, temperature, city, country, countryCode, da
     weather_exp.innerHTML = `${explanation}`;
     weather_temp.innerHTML = `Temperature: ${Math.round(temperature)}°C`;
     wind_speed.innerHTML = `Wind Speed: ${Math.round(windspeed*10)/10} m/s`;
-
+}
 //-------------------------------------------------------------//  
 
 /* POST data */
@@ -213,9 +172,5 @@ savetrip.addEventListener('click', function (event) {
 postData('/add', {icon, explanation, temperature, city, country, countryCode, daytime, image, windspeed});
 
 console.log('sending data to server');
-});
-
+    });
 //-------------------------------------------------------------//
-}
-}
-export{getplan}
